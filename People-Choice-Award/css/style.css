@@ -1,0 +1,1790 @@
+:root {
+  --green: #043c37;
+  --white: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--green);
+  color: var(--white);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* no single word left alone on the last line */
+p,
+h1,
+h2,
+blockquote,
+figcaption {
+  text-wrap: pretty;
+}
+
+/* ================= HERO ================= */
+
+/* One screen tall. Everything shows straight away (no load animation).
+   On scroll: bg + title drift slower than the page, people move faster,
+   so the people slide up in front of the title (parallax). */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--green);
+}
+
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.hero__layer--bg { z-index: 1; }
+.hero__layer--title { z-index: 2; }
+.hero__layer--people { z-index: 3; }
+
+/* bg + people share the exact same box so they line up */
+.hero__bg,
+.hero__people {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+  backface-visibility: hidden;
+}
+
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 60, 55, 0.75) 0%, rgba(0, 0, 0, 0.5) 100%);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.hero__title {
+  position: absolute;
+  top: 16.7%;
+  left: 50%;
+  width: 90%;
+  max-width: 1100px;
+  transform: translateX(-50%);
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 500;
+  font-size: clamp(34px, 5.56vw, 80px);
+  line-height: 1.25;
+  text-align: center;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+.hero__line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* fades hero into the green section */
+.hero__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(4, 60, 55, 0) 0%, rgba(4, 60, 55, 0.7) 55%, var(--green) 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ================= INTRO ================= */
+
+/* Matches Figma frame 1438 x 599, text box 873 x 410, Inter 24 / auto */
+.intro {
+  background: var(--green);
+  min-height: 41.66vw;
+  padding: 6.5vw 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro__inner {
+  width: 60.7vw;
+}
+
+.intro p {
+  font-size: 1.67vw;
+  line-height: 1.21;
+  margin-bottom: 1.21em;
+}
+
+.intro p:last-child {
+  margin-bottom: 0;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ================= SCENES (JAM 0 style) ================= */
+
+.scenes {
+  position: relative;
+  --cream: #f2eee6;
+}
+
+/* bg frame stays pinned while cards scroll over it */
+.scenes__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+}
+
+.scenes__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.scenes__bg.is-active {
+  opacity: 1;
+}
+
+.scenes__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* pull cards up so they scroll over the pinned stage */
+.scenes__cards {
+  position: relative;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  z-index: 2;
+  padding-bottom: 40vh;
+}
+
+.scene {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.scene:first-child {
+  padding-top: 20vh;
+}
+
+.card {
+  background: var(--cream);
+  color: #000;
+  border-radius: 16px;
+  padding: 40px 44px;
+  width: 100%;
+  max-width: 560px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.card p {
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.55;
+}
+
+.card p + p {
+  margin-top: 1.2em;
+}
+
+.card--title {
+  max-width: 760px;
+}
+
+.card--title h2 {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.card--lead {
+  max-width: 700px;
+}
+
+.card--lead p {
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.35;
+}
+
+.card .flow {
+  display: inline-block;
+  margin-top: 0.4em;
+  letter-spacing: 0.02em;
+}
+
+.card--mid {
+  max-width: 640px;
+}
+
+.card--mid p {
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.4;
+}
+
+/* ================= ILMU (teal) ================= */
+
+.ilmu {
+  --teal: #0c9a8e;
+  background: var(--teal);
+  padding: 96px 24px 120px;
+}
+
+.ilmu__inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* video placeholder, swap for real <video> later */
+.video {
+  margin-bottom: 72px;
+}
+
+.video__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 4px solid var(--white);
+  border-radius: 16px;
+  background: radial-gradient(ellipse at center, #2b2f3a 0%, #0d0f14 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.video__play {
+  width: 64px;
+  height: 64px;
+  color: rgba(255, 255, 255, 0.85);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.video__play:hover {
+  transform: scale(1.08);
+  color: var(--white);
+}
+
+.video__play svg {
+  width: 100%;
+  height: 100%;
+}
+
+.video__label {
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.ilmu__title,
+.ilmu__text {
+  max-width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ilmu__title {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.ilmu__text p {
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.21;
+  margin-bottom: 1.21em;
+}
+
+.ilmu__text p:last-child {
+  margin-bottom: 0;
+}
+
+/* quote card */
+.quote {
+  background: var(--white);
+  color: var(--teal);
+  border-radius: 16px;
+  padding: 52px 76px 36px;
+  margin: 72px 0;
+}
+
+.quote__mark {
+  display: block;
+  width: 40px;
+  height: auto;
+  margin-bottom: 28px;
+}
+
+.quote blockquote p {
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.quote__line {
+  border: 0;
+  height: 2px;
+  background: var(--teal);
+  margin: 32px 0 40px;
+}
+
+.quote__author {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+}
+
+.quote__who {
+  font-size: 17px;
+  line-height: 1.3;
+  padding-top: 24px;
+}
+
+.quote__who strong {
+  display: block;
+  font-weight: 700;
+}
+
+.quote__author img {
+  width: 128px;
+  height: 128px;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+/* quote animation: mark pops, words rise one by one, line draws, author slides in.
+   Hidden states have no transition, so they apply instantly; timing lives on .is-play. */
+.quote.js-anim .quote__mark {
+  opacity: 0;
+  transform: scale(0.4) rotate(-12deg);
+}
+
+.quote.js-anim .qw {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  filter: blur(4px);
+}
+
+.quote.js-anim .quote__line {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.quote.js-anim .quote__author {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.quote.is-play .quote__mark {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quote.is-play .qw {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  transition-delay: calc(0.35s + var(--i) * 0.045s);
+}
+
+.quote.is-play .quote__line {
+  transform: none;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--line-delay, 1.4s);
+}
+
+.quote.is-play .quote__author {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease calc(var(--line-delay, 1.4s) + 0.4s), transform 0.6s ease calc(var(--line-delay, 1.4s) + 0.4s);
+}
+
+/* ================= BAKAT (light) ================= */
+
+/* bg matches the Sara video so its edges disappear */
+.bakat {
+  background: #f2f0ec;
+  color: #000;
+  padding: 96px 24px 120px;
+}
+
+.bakat__inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.bakat__text,
+.bakat__title {
+  max-width: 690px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bakat__text p {
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.21;
+  margin-bottom: 1.21em;
+}
+
+.bakat__text p:last-child {
+  margin-bottom: 0;
+}
+
+/* voxpop placeholder (swap for real video later) */
+.voxpop {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 72px;
+}
+
+.voxpop__frame {
+  position: relative;
+  aspect-ratio: 404 / 512;
+  background: linear-gradient(160deg, #5b5f66 0%, #2c2f35 100%);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.voxpop__play {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.voxpop__label {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  width: 56%;
+  transform: translateX(-50%);
+  background: var(--white);
+  color: #000;
+  font-size: 14px;
+  line-height: 1.3;
+  padding: 18px 20px;
+}
+
+.bakat__title {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  margin-top: 72px;
+  margin-bottom: 40px;
+}
+
+.sara {
+  margin-bottom: 56px;
+}
+
+.sara video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1920 / 540;
+  background: #f2f0ec;
+}
+
+/* ================= QUIZ ================= */
+
+.quiz {
+  --teal: #0c9a8e;
+  --yellow: #ffd23f;
+  --yellow-dark: #f2b705;
+  max-width: 620px;
+  margin: 88px auto;
+  background: var(--teal);
+  border-radius: 12px;
+  padding: 42px 32px 28px;
+  box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.12), 0 18px 40px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.quiz__title {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 29px;
+}
+
+.quiz__opts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.quiz__opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 212px;
+  min-height: 36px;
+  padding: 5px 12px 5px 6px;
+  background: var(--white);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f2f2c;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quiz__icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(12, 154, 142, 0.12);
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease;
+}
+
+.quiz__icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--teal);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.2s ease;
+}
+
+/* hover = yellow */
+.quiz:not(.is-answered) .quiz__opt:hover,
+.quiz:not(.is-answered) .quiz__opt:focus-visible,
+.quiz__opt.is-correct {
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.22);
+}
+
+.quiz:not(.is-answered) .quiz__opt:hover {
+  transform: translate(-1px, -1px);
+}
+
+.quiz:not(.is-answered) .quiz__opt:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.quiz:not(.is-answered) .quiz__opt:hover .quiz__icon,
+.quiz__opt.is-correct .quiz__icon {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.quiz:not(.is-answered) .quiz__opt:hover .quiz__icon svg,
+.quiz__opt.is-correct .quiz__icon svg {
+  stroke: #1a1a1a;
+}
+
+.quiz__opt:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.quiz.is-answered .quiz__opt {
+  cursor: default;
+}
+
+/* answer box */
+.quiz__answer {
+  margin-top: 13px;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 24px 28px 22px;
+  animation: answerIn 0.45s ease both;
+}
+
+.quiz__answer[hidden] {
+  display: none;
+}
+
+.quiz__answer-title {
+  color: var(--teal);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.quiz__answer-text {
+  color: #1f2f2d;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@keyframes answerIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.quiz__icon--img {
+  background: #d8f5ef;
+}
+
+.quiz__icon--img img {
+  width: 58%;
+  height: 58%;
+  object-fit: contain;
+}
+
+/* ---- poll results: each option becomes a bar with % ---- */
+.quiz--poll .quiz__opt {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.quiz--poll .quiz__opts {
+  align-items: center;
+}
+
+.quiz--poll.is-results .quiz__opt {
+  max-width: 340px;
+  transition: max-width 0.5s ease;
+}
+
+.quiz__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: rgba(12, 154, 142, 0.18);
+  z-index: -1;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.quiz__opt.is-correct .quiz__fill {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.quiz__pct {
+  margin-left: auto;
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: 16px;
+  color: #03353e;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.3s;
+  font-variant-numeric: tabular-nums;
+}
+
+.quiz--poll.is-results .quiz__pct {
+  opacity: 1;
+}
+
+.quiz__total {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+}
+
+.quiz__total[hidden] {
+  display: none;
+}
+
+/* ---- drag-into-sentence poll ---- */
+.quiz--drag {
+  margin-top: 88px;
+  margin-bottom: 0;
+}
+
+.drag__sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 14px;
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 500;
+  font-size: clamp(18px, 1.7vw, 24px);
+  color: var(--white);
+  margin-bottom: 26px;
+}
+
+.drag__slot {
+  min-width: 230px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 4px;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  animation: slotPulse 1.8s ease-in-out infinite;
+}
+
+.drag__slot-empty {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.drag__slot.is-over {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--yellow);
+  transform: scale(1.04);
+}
+
+.drag__slot.is-filled {
+  border-style: solid;
+  border-color: transparent;
+  animation: none;
+  padding: 0;
+}
+
+@keyframes slotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+}
+
+.drag__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 6px;
+  min-height: 36px;
+  background: var(--white);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #03353e;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.2s ease, transform 0.15s ease, opacity 0.3s ease;
+}
+
+.quiz:not(.is-answered) .chip:hover,
+.quiz:not(.is-answered) .chip:focus-visible {
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+  transform: translate(-1px, -1px);
+}
+
+.chip.is-dragging {
+  opacity: 0.35;
+}
+
+.chip--ghost {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  cursor: grabbing;
+  transform: rotate(-3deg) scale(1.05);
+  box-shadow: 6px 10px 20px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+}
+
+/* chip sitting inside the slot */
+.drag__slot .chip {
+  cursor: default;
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+  animation: chipIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes chipIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.quiz.is-answered .drag__chips .chip {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.drag__hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.quiz.is-answered .drag__hint {
+  display: none;
+}
+
+.quiz--poll {
+  margin-top: 88px;
+  margin-bottom: 0;
+}
+
+.quiz--poll .quiz__answer-title {
+  color: #006965;
+}
+
+.quiz--poll .quiz__answer-text {
+  color: #03353e;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.quiz--poll .quiz__label {
+  color: #03353e;
+}
+
+.bakat__title--teal {
+  color: #0c9a8e;
+  margin-top: 88px;
+  margin-bottom: 24px;
+}
+
+.bakat__title--first {
+  margin-top: 0;
+}
+
+.bakat__text--small p {
+  font-size: 15px;
+}
+
+.flow {
+  letter-spacing: 0.02em;
+}
+
+/* ================= DANA (teal pinned, art left) ================= */
+
+.scenes__stage--teal {
+  background: #0c9a8e;
+}
+
+/* each art frame fills the stage; only left half holds the picture */
+.scenes--dana .dana__art {
+  object-fit: initial;
+}
+
+.dana__art--cip img {
+  position: absolute;
+}
+
+.dana__art--cip img {
+  left: 0;
+  bottom: 0;
+  height: 92%;
+  width: auto;
+  max-width: 52%;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+.dana__pic {
+  position: absolute;
+  left: 4%;
+  top: 50%;
+  width: 42%;
+  aspect-ratio: 787 / 508;
+  transform: translateY(-50%);
+}
+
+.dana__pic img {
+  position: static;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* label + leader line + dot pointing at the money */
+.tag {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tag__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.tag__line polyline {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.tag__dot {
+  position: absolute;
+  left: var(--dx);
+  top: var(--dy);
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #000;
+}
+
+/* label box: 128x30 on a 780 frame = 16.4vw x 3.8vw */
+.tag__box {
+  position: absolute;
+  left: var(--lx);
+  top: var(--ly);
+  width: 16.4vw;
+  height: 3.8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border-radius: 0.4vw;
+  color: #000;
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 500;
+  font-size: 2.05vw;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tag__box em {
+  position: absolute;
+  right: -1.8vw;
+  top: -1.3vw;
+  background: var(--badge);
+  color: #000;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.3vw;
+  line-height: 1;
+  padding: 0.35vw 0.45vw;
+  border-radius: 0.2vw;
+}
+
+/* tag pops in after the picture swaps */
+.tag {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.scenes__bg.is-active .tag {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.45s;
+}
+
+/* cards ride up the right side: left 53vw, width 36.3vw on a 780 frame */
+.scenes--dana .scene,
+.scenes--uji .scene {
+  justify-content: flex-start;
+  padding-left: 53vw;
+  padding-right: 0;
+}
+
+.dana__card {
+  width: 36.3vw;
+  max-width: none;
+  border-radius: 0.8vw;
+  padding: 2.9vw 3.1vw 3vw;
+  box-shadow: none;
+}
+
+.dana__h {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 500;
+  font-size: 2.2vw;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin-bottom: 1.4vw;
+}
+
+.dana__card p {
+  font-size: 1.4vw;
+  line-height: 1.3;
+}
+
+.dana__card .dana__num {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 500;
+  font-size: 2.2vw;
+  line-height: 1.2;
+  margin-bottom: 1vw;
+}
+
+.dana__card .dana__num + p {
+  margin-top: 0;
+}
+
+.dana__card p + p {
+  margin-top: 1em;
+}
+
+/* ================= 5 SYARIKAT ================= */
+
+.syarikat {
+  position: relative;
+  height: 500vh;
+  background: #ffffff;
+  color: #000;
+}
+
+.syarikat__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.syarikat__group {
+  width: min(42vw, 620px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.syarikat__row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.6%;
+  width: 100%;
+}
+
+.syarikat__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.syarikat__col.is-on {
+  opacity: 1;
+}
+
+.syarikat__logo {
+  height: 3.2vw;
+  max-height: 46px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.4vw;
+}
+
+.syarikat__logo img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+/* FusionAP logo is white, so it sits on a black box */
+.syarikat__logo--dark {
+  background: #000;
+  padding: 0.4vw 0.5vw;
+}
+
+.syarikat__bld {
+  width: 100%;
+  height: auto;
+}
+
+/* one fixed cyan box; only the text inside swaps (no movement, no fade) */
+.syarikat__cards {
+  position: relative;
+  width: 84%;
+  margin-top: -0.6vw;
+  display: grid;
+  background: #1beedc;
+  border-radius: 0.8vw;
+}
+
+.syarikat__card {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.8vw 2vw;
+  visibility: hidden;
+}
+
+.syarikat__card.is-active {
+  visibility: visible;
+}
+
+.syarikat__kicker,
+.syarikat__name {
+  font-family: "Iosevka Charon", monospace;
+  font-weight: 700;
+  font-size: clamp(16px, 1.55vw, 24px);
+  line-height: 1.3;
+}
+
+.syarikat__kicker {
+  text-transform: uppercase;
+  margin-bottom: 0.6vw;
+}
+
+.syarikat__role {
+  font-size: clamp(12px, 0.85vw, 14px);
+  margin-top: 0.5vw;
+}
+
+/* ================= KEDAULATAN + PENUTUP ================= */
+
+.ilmu--daulat {
+  padding: 120px 24px;
+}
+
+.ilmu--daulat .ilmu__title {
+  margin-bottom: 36px;
+}
+
+.ilmu__text--small p {
+  font-size: 15px;
+}
+
+.bakat--penutup .sara {
+  margin-bottom: 72px;
+}
+
+.video--end {
+  margin: 88px 0 0;
+}
+
+/* ================= FOOTER (kept compact, ~3/4 of the reference) ================= */
+
+.foot {
+  background: #333333;
+  color: #ffffff;
+  padding: 64px 24px 56px;
+  text-align: center;
+  font-family: "Open Sans", "Inter", sans-serif;
+}
+
+.foot__inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.foot__collab {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.foot__h {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.foot__share {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 18px 0 44px;
+}
+
+.foot__btn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: #e6e6e6;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.foot__btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+}
+
+.foot__btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.foot__line {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.85);
+  margin: 14px 0 16px;
+}
+
+.foot__credits {
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.foot__credits strong {
+  font-weight: 700;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .hero__bg,
+  .hero__people {
+    object-position: 72% center;
+  }
+
+  .hero__title {
+    top: 12%;
+  }
+
+  .hero__line {
+    white-space: normal;
+  }
+
+  .intro {
+    padding: 64px 20px;
+  }
+
+  .intro__inner {
+    width: 100%;
+  }
+
+  .intro p {
+    font-size: 17px;
+  }
+
+  .scene {
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 28px 24px;
+  }
+
+  .ilmu,
+  .bakat {
+    padding: 64px 16px 80px;
+  }
+
+  .voxpop {
+    margin-bottom: 48px;
+  }
+
+  .voxpop__label {
+    width: 70%;
+    font-size: 13px;
+    padding: 14px 16px;
+  }
+
+  .bakat__title {
+    margin-top: 48px;
+    margin-bottom: 28px;
+  }
+
+  .syarikat__group {
+    width: 92vw;
+  }
+
+  .syarikat__logo {
+    height: 8vw;
+    margin-bottom: 3vw;
+  }
+
+  .syarikat__cards {
+    width: 100%;
+    margin-top: -1.5vw;
+  }
+
+  .syarikat__cards {
+    border-radius: 10px;
+  }
+
+  .syarikat__card {
+    padding: 18px 20px;
+  }
+
+  .syarikat__kicker { margin-bottom: 6px; }
+  .syarikat__role { margin-top: 6px; }
+
+  /* dana: picture on top, cards pass below it */
+  .dana__art--cip img {
+    top: 6%;
+    height: 44%;
+    max-width: 80%;
+    transform: none;
+  }
+
+  .dana__pic {
+    left: 8%;
+    top: 12%;
+    width: 84%;
+    transform: none;
+  }
+
+  .scenes--uji .scene {
+    justify-content: center;
+    padding: 0 16px;
+  }
+
+  .scenes--dana .scene {
+    align-items: flex-end;
+    padding: 0 16px 10vh;
+  }
+
+  .dana__card {
+    width: 100%;
+    border-radius: 10px;
+    padding: 22px 20px;
+  }
+
+  .dana__h,
+  .dana__card .dana__num {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .dana__card p {
+    font-size: 14px;
+  }
+
+  .tag__box {
+    width: 34vw;
+    height: 8vw;
+    border-radius: 4px;
+    font-size: 4.2vw;
+  }
+
+  .tag__box em {
+    right: -3vw;
+    top: -2.6vw;
+    font-size: 2.8vw;
+    padding: 0.8vw 1vw;
+  }
+
+  .quiz {
+    margin: 56px auto;
+    padding: 36px 20px 28px;
+  }
+
+  .quiz__answer {
+    padding: 20px;
+  }
+
+  .quiz__answer-text br {
+    display: none;
+  }
+
+  .video,
+  .quote {
+    margin-bottom: 48px;
+  }
+
+  .quote {
+    margin-top: 48px;
+    padding: 28px 24px 24px;
+  }
+
+  .quote__mark {
+    width: 32px;
+    margin-bottom: 20px;
+  }
+
+  .quote__who {
+    font-size: 14px;
+    padding-top: 8px;
+  }
+
+  .quote__author img {
+    width: 88px;
+    height: 88px;
+  }
+}
+
+/* ================= REDUCED MOTION ================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .scenes__bg { transition: none; }
+  .quiz__answer { animation: none; }
+  .quiz__fill, .quiz__pct { transition: none; }
+  .drag__slot, .drag__slot .chip { animation: none; }
+  .tag { transition: none; }
+  .syarikat { height: auto; }
+  .syarikat__stage { position: relative; height: auto; padding: 80px 0; }
+  .syarikat__col { opacity: 1; transition: none; }
+}
+
+
+/* =====================================================================
+   TYPE + SPACING SYSTEM (overrides everything above)
+   - 2 font sizes only: --fs-head for titles/headers, --fs-body for all other text
+     (the big hero title is the one exception)
+   - Titles in sentence case (no forced capitals)
+   - One spacing value between blocks/sections (--space),
+     one between heading/text and paragraph/paragraph (--space-s)
+   ===================================================================== */
+:root {
+  --fs-head: clamp(24px, 2.2vw, 32px);
+  --fs-body: clamp(16px, 1.3vw, 19px);
+  --lh-head: 1.3;
+  --lh-body: 1.65;
+  --space: clamp(56px, 7vw, 96px);
+  --space-s: 24px;
+}
+
+/* ---------- headers ---------- */
+.card h2,
+.card--title h2,
+.ilmu__title,
+.bakat__title,
+.quiz__title,
+.quiz__answer-title,
+.dana__h,
+.dana__card .dana__num,
+.syarikat__kicker,
+.syarikat__name {
+  font-size: var(--fs-head);
+  line-height: var(--lh-head);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* ---------- everything else ---------- */
+p,
+li,
+blockquote p,
+.intro p,
+.card p,
+.card--lead p,
+.card--mid p,
+.ilmu__text p,
+.ilmu__text--small p,
+.bakat__text p,
+.bakat__text--small p,
+.dana__card p,
+.quote blockquote p,
+.quote__who,
+.quote__who strong,
+.video__label,
+.voxpop__label,
+.quiz__opt,
+.quiz__label,
+.quiz__answer-text,
+.quiz__total,
+.chip,
+.chip__label,
+.drag__sentence,
+.drag__slot-empty,
+.drag__hint,
+.syarikat__role,
+.tag__box,
+.tag__box em,
+.foot__collab,
+.foot__h,
+.foot__credits {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* keep header-styled <p>s as headers after the rule above */
+.dana__card .dana__num,
+.syarikat__kicker,
+.syarikat__name,
+.quiz__answer-title {
+  font-size: var(--fs-head);
+  line-height: var(--lh-head);
+}
+
+/* the drag sentence is a question line, keep it header size */
+.drag__sentence { font-size: var(--fs-head); line-height: var(--lh-head); }
+
+/* labels that sat in fixed boxes now size to their text */
+.tag__box {
+  width: auto;
+  height: auto;
+  padding: 0.5em 0.9em;
+  line-height: 1.2;
+}
+.tag__box em { font-size: var(--fs-body); line-height: 1; padding: 0.3em 0.45em; right: -1.4em; top: -1.1em; }
+.quiz__opt { max-width: 280px; min-height: 44px; }
+.quiz--poll.is-results .quiz__opt { max-width: 360px; }
+
+/* ---------- spacing ---------- */
+.intro,
+.ilmu,
+.ilmu--daulat,
+.bakat,
+.foot {
+  padding-top: var(--space);
+  padding-bottom: var(--space);
+}
+
+.intro { min-height: 0; }
+
+/* every block inside a section is one --space apart */
+.ilmu__inner > *,
+.bakat__inner > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.ilmu__inner > * + *,
+.bakat__inner > * + * {
+  margin-top: var(--space);
+}
+
+/* heading -> its text: small gap */
+.ilmu__inner > .ilmu__title + *,
+.bakat__inner > .bakat__title + * {
+  margin-top: var(--space-s);
+}
+
+/* paragraph -> paragraph: small gap everywhere */
+.intro p,
+.ilmu__text p,
+.bakat__text p,
+.card p,
+.dana__card p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.intro p + p,
+.ilmu__text p + p,
+.bakat__text p + p,
+.card p + p,
+.card h2 + p,
+.dana__card p + p,
+.dana__card .dana__h + p,
+.quote blockquote + .quote__line {
+  margin-top: var(--space-s);
+}
+.dana__h,
+.card h2 { margin-bottom: 0; }
+.dana__card .dana__num { margin-bottom: 0; }
+.dana__card .dana__num + p { margin-top: var(--space-s); }
+
+/* inside the quiz cards */
+.quiz__title { margin-bottom: var(--space-s); }
+.quiz__answer,
+.quiz__total,
+.drag__hint { margin-top: var(--space-s); }
+.drag__sentence { margin-bottom: var(--space-s); }
+.quiz__answer-title { margin-bottom: 12px; }
+
+/* quote card */
+.quote__mark { margin-bottom: var(--space-s); }
+.quote__line { margin: var(--space-s) 0; }
+.quote__who { padding-top: 0; align-self: center; }
+
+/* footer */
+.foot__share { margin: var(--space-s) 0 var(--space); }
+.foot__line { margin: 12px 0 var(--space-s); }
+
+/* "Semuanya bermula" cards: all one size, centred, like the reference */
+#scenes .card,
+#scenes .card--title,
+#scenes .card--lead,
+#scenes .card--mid {
+  width: clamp(320px, 36.3vw, 560px);
+  max-width: 100%;
+  padding: 2.9vw 3.1vw 3vw;
+  border-radius: 0.8vw;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  #scenes .card,
+  #scenes .card--title,
+  #scenes .card--lead,
+  #scenes .card--mid {
+    width: 100%;
+    padding: 22px 20px;
+    border-radius: 10px;
+  }
+}
+
+/* hero title sits on the left so "cipta?" is clear of the people at the start;
+   it still slides down behind them on scroll */
+.hero__title {
+  left: 6vw;
+  font-size: clamp(34px, 5vw, 76px);
+  width: auto;
+  max-width: none;
+  transform: none;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .hero__title {
+    left: 20px;
+    right: 20px;
+    top: 9%;
+  }
+}
+
+/* credits: each credit on one line */
+.foot__inner { max-width: 720px; }
+.foot__credits li { white-space: nowrap; }
+@media (max-width: 600px) {
+  .foot__credits li { white-space: normal; }
+  .foot__credits strong { white-space: nowrap; }
+}
+
+/* ---- quote card: typewriter ---- */
+.quote.js-anim .quote__author,
+.quote.is-play .quote__author { opacity: 1; transform: none; transition: none; }
+
+/* letters keep their space (card never jumps), revealed one by one */
+.quote .qc { visibility: hidden; }
+.quote .qc.is-typed { visibility: visible; }
+
+.quote .q-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 1px;
+  vertical-align: -0.2em;
+  background: currentColor;
+  animation: qCaret 0.8s steps(1) infinite;
+}
+.quote.is-done .q-caret { animation: qCaret 0.8s steps(1) 3 forwards; }
+
+@keyframes qCaret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ---- custom scrollbar ---- */
+html { scrollbar-width: thin; scrollbar-color: #0c9a8e transparent; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #0c9a8e;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #ffd23f; background-clip: padding-box; }
+::-webkit-scrollbar-button { display: none; height: 0; }
+
+/* quiz / poll options: regular weight, not bold */
+.quiz__opt,
+.quiz__label,
+.chip,
+.chip__label {
+  font-weight: 400;
+}
+
+
+/* flow lines (MAKMAL -> ... -> PENGGUNA) always stay on one line */
+.flow,
+.card .flow {
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+  letter-spacing: 0;
+}
+@media (max-width: 600px) {
+  /* shrink just enough to fit the screen width */
+  .bakat__text p .flow { font-size: min(16px, calc((100vw - 34px) / 36.5)); }
+  .card p .flow { font-size: min(16px, calc((100vw - 76px) / 19.5)); }
+}
+
+/* ---- mobile: one even side gutter everywhere + lines that fill the width ---- */
+@media (max-width: 768px) {
+  :root { --gutter: 24px; }
+
+  .intro,
+  .ilmu,
+  .ilmu--daulat,
+  .bakat,
+  .foot,
+  .scene,
+  .scenes--uji .scene {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .intro__inner { width: 100%; }
+
+  .syarikat__group { width: calc(100vw - 2 * var(--gutter)); }
+
+  /* "pretty" wrapping leaves short lines on narrow screens, making the right side look empty.
+     Normal wrapping fills each line; the last-two-words glue still prevents single-word lines. */
+  p, h1, h2, h3, blockquote, figcaption { text-wrap: wrap; }
+}
+
+@media (max-width: 768px) {
+  /* laptop line breaks in headings make odd short lines on phones */
+  .ilmu__title br,
+  .bakat__title br,
+  .dana__h br,
+  .quiz__title br,
+  .card h2 br,
+  .quiz__answer-title br { display: none; }
+}
